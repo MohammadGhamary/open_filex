@@ -236,8 +236,6 @@ public class OpenFilePlugin implements MethodCallHandler
         intent.setPackage("com.vnegar.digimazepdfreader");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
         int type = 0;
         String message = "done";
 
