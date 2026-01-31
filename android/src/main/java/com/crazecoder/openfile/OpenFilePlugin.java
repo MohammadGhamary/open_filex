@@ -217,35 +217,38 @@ public class OpenFilePlugin implements MethodCallHandler
     }
 
     private void startActivity() {
-        if(!isFileAvailable()){
+        if (!isFileAvailable()) {
             return;
         }
-        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        String password = ""; // or null
+        String encodedPath = Uri.encode(filePath);
+        String encodedPassword = password != null ? Uri.encode(password) : "";
+
+        Uri uri = Uri.parse(
+                "digimazepdfreader://open" +
+                        "?path=" + encodedPath +
+                        "&password=" + encodedPassword
+        );
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setPackage("com.vnegar.digimazepdfreader");
-        if (TYPE_STRING_APK.equals(typeString))
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        else
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            String packageName = context.getPackageName();
-            Uri uri = FileProvider.getUriForFile(context, packageName + ".fileProvider.com.crazecoder.openfile", new File(filePath));
-            intent.setDataAndType(uri, typeString);
-        } else {
-            intent.setDataAndType(Uri.fromFile(new File(filePath)), typeString);
-        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         int type = 0;
         String message = "done";
+
         try {
             activity.startActivity(intent);
         } catch (ActivityNotFoundException e) {
             type = -1;
-            message = "No APP found to open this file。";
+            message = "Tauri PDF Reader app not found.";
         } catch (Exception e) {
             type = -4;
-            message = "File opened incorrectly。";
+            message = "Failed to open PDF.";
         }
+
         result(type, message);
     }
 
