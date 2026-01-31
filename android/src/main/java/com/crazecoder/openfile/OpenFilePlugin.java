@@ -221,6 +221,7 @@ public class OpenFilePlugin implements MethodCallHandler
             return;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setPackage("com.vnegar.digimazepdfreader");
         if (TYPE_STRING_APK.equals(typeString))
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         else
