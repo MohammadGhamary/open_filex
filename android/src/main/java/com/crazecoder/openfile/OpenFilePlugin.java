@@ -222,12 +222,12 @@ public class OpenFilePlugin implements MethodCallHandler
         }
 
         String password = ""; // or null
-        String encodedPath = Uri.encode(filePath);
+        Uri content_uri = FileProvider.getUriForFile(context, packageName + ".fileProvider.com.crazecoder.openfile", new File(filePath));
         String encodedPassword = password != null ? Uri.encode(password) : "";
 
         Uri uri = Uri.parse(
                 "digimazepdfreader://open" +
-                        "?path=" + encodedPath +
+                        "?path=" + content_uri +
                         "&password=" + encodedPassword
         );
 
