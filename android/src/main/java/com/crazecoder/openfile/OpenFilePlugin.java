@@ -222,6 +222,7 @@ public class OpenFilePlugin implements MethodCallHandler
         }
 
         String password = ""; // or null
+        String packageName = context.getPackageName();
         Uri content_uri = FileProvider.getUriForFile(context, packageName + ".fileProvider.com.crazecoder.openfile", new File(filePath));
         String encodedPassword = password != null ? Uri.encode(password) : "";
 
